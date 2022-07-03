@@ -1,0 +1,146 @@
+{% extends 'base.html' %}
+{% block title %} Home{% endblock title %}
+{% block body %}
+
+
+<head>
+  <meta charset="UTF-8">
+  <title>Dashboard Page</title>
+  <!--  Linking CSS,JS with HTML here using below href Syntax-->
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script>
+    $(function () {
+      var tags = {{ family_list | safe
+    }}
+      $("#tags").autocomplete({ source: tags });
+    } );
+  </script>
+</head>
+
+
+<div class="container my-3">
+
+
+  <h2 style="background-color:rgb(207, 166, 228);"> @ Add Collection Details </h2>
+
+
+
+  <div class="col-sm-5">
+    <h1 style="color:red;"> <u> Select Family Name: </u> </h1>
+  </div><br>
+
+  <div>
+    <form id="form" role="search" action="/on_search" method="post">
+      <div class="input-group">
+        <input id="tags" type="search" class="form-control rounded" name="family_name"
+          placeholder="eg. Chaudhari Kusum Family" aria-label="Search" aria-describedby="search-addon" />
+        <button type="submit" class="btn btn-outline-primary">Search</button>
+      </div><br>
+    </form>
+  </div>
+
+
+  <div class="container my-3">
+    <h2 style="background-color:rgb(124, 205, 219);"> #{{ MM }} -Month Recent Updates: </h2>
+
+    {% if thisMonth|length == 0 %}
+
+    <div class="p-3 mb-2 bg-warning text-dark" role="alert">
+      No Records found. Add your first Collection Record now!
+    </div>
+    {% else %}
+
+
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      
+      /* Create three equal columns that floats next to each other */
+      .column {
+        float: left;
+        width: 33.33%;
+        padding: 8px;
+        height: 110px; /* Should be removed. Only for demonstration */
+      }
+      
+      /* Clear floats after the columns */
+      .row:after {
+        content: "";
+        display: table;
+        clear: both;
+      }
+      </style>
+      </head>
+      <body>
+      
+      <h2> ##-Collection Summary-</h2>
+      
+      <div class="row">
+        <div class="column" style="background-color:rgb(98, 208, 64);">
+          <h3>Total Cash-Collected </h3>
+          <h2> = {{format_price(cash_IN)}}</h2>
+        </div>
+        <div class="column" style="background-color:rgb(233, 85, 85);">
+          <h3>Total Cash-Pending </h3>
+          <h2> = {{format_price(cash_PEND)}}</h2>
+        </div>
+        <div class="column" style="background-color:rgb(222, 188, 84);">
+          <h3>Total Cash-Extra </h3>
+          <h2> = {{format_price(cash_EXTR)}}</h2>
+        </div>
+      </div>
+
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">SNo</th>
+          <th scope="col">Family Name</th>
+          <th scope="col">Regular Amount (₹)</th>
+          <th scope="col">Collected Upto Month (1-12)</th>
+          <th scope="col">Pending Amt (₹)</th>
+          <th scope="col">Extra Amt (₹)</th>
+          <th scope="col">Note</th>
+          <th scope="col">Time</th>
+          <th scope="col">Actions</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        {% for col in thisMonth %}
+        <tr>
+          <th scope="row">{{loop.index}}</th>
+          <td>
+            <a href="/on_search_link/{{ col[0] }}">{{col[0]}}</a>
+          </td>
+          <td>{{col[1]}}</td>
+          <td>{{col[2]}}</td>
+          <td>{{col[3]}}</td>
+          <td>{{col[4]}}</td>
+          <td>{{col[5]}}</td>
+          <td>{{col[6]}}</td>
+          <td>
+              <a href="/update/{{col[7]}}" type="button" class="btn btn-outline-success">Update</button>
+              <br>----</br>
+              <a href="/delete/{{col[7]}}" type="button" class="btn btn-outline-danger">Delete</button>
+
+          </td>
+        </tr>
+
+        {% endfor %}
+      </tbody>
+    </table>
+    {% endif %}
+
+
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
+    crossorigin="anonymous"></script>
+
+
+  {% endblock body %}

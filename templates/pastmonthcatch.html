@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %} Home{% endblock title %}
+{% block body %}
+
+<br>
+<h1>Enter Month Number below:</h1>
+
+<form id="form" action="/past_collections" method="post">
+  <label for="mm">First name: </label>
+  <input type="text" id="mm" name="mm" placeholder=" eg. 07, 09, 11"><br><br>
+  <input type="submit" value="Submit">
+</form> <br><br>
+
+
+{% endblock body %}

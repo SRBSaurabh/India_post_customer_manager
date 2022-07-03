@@ -1,0 +1,205 @@
+{% extends 'base.html' %}
+{% block title %} Home{% endblock title %}
+{% block body %}
+
+<br>
+<div class="container px-5">
+    <center>
+        <h1 style="background-color:lightgreen;"> @ Current Months's Top (20) Pending Accounts...!! </h1>
+    </center>
+    <br>
+
+    {% if currPendList|length == 0 %}
+
+    <div class="p-3 mb-2 bg-warning text-dark" role="alert">
+        No Pending Recors Found..!!
+    </div>
+    {% else %}
+
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th scope="col">SrNo</th>
+                <th scope="col">Name</th>
+                <th scope="col">Account No</th>
+                <th scope="col">Amount (₹)</th>
+                <th scope="col">Months Paid On Portal</th>
+                <th scope="col">Next Due Date</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for a in currPendList %}
+            <tr>
+                <th scope="row">{{loop.index}}</th>
+                <td> {{ a[0] }} </td>
+                <td> {{ a[1] }} </td>
+                <td> {{ format_price(a[2]) }} </td>
+                <td> {{ a[3] }} </td>
+                <td> {{ a[4] }} </td>
+            </tr>
+
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+
+    <br>
+
+
+</div>
+
+<style>
+    .button {
+        display: inline-block;
+        border-radius: 5px;
+        background-color: #f4511e;
+        border: none;
+        color: #FFFFFF;
+        text-align: center;
+        font-size: 30px;
+        padding: 10px;
+        width: 200px;
+        transition: all 0.5s;
+        cursor: pointer;
+        margin: 5px;
+    }
+
+    .button span {
+        cursor: pointer;
+        display: inline-block;
+        position: relative;
+        transition: 0.5s;
+    }
+
+    .button span:after {
+        content: '\00bb';
+        position: absolute;
+        opacity: 0;
+        top: 0;
+        right: -20px;
+        transition: 0.5s;
+    }
+
+    .button:hover span {
+        padding-right: 25px;
+    }
+
+    .button:hover span:after {
+        opacity: 1;
+        right: 0;
+    }
+
+    .button1 {
+        font-weight: bold;
+        background-color: #eb2222;
+    }
+
+    .button2 {
+        font-weight: bold;
+        background-color: #fd952c;
+    }
+    .button3 {
+        font-weight: bold;
+        background-color: #65d642;
+    }
+
+    /* Red */
+    .button4 {
+        font-weight: bolder;
+        background-color: #070117;
+        color: rgb(230, 225, 225);
+    }
+
+    /* Gray */
+    .button5 {
+        background-color: #6295d2;
+    }
+
+    /* Black */
+</style>
+</head>
+
+<body><br>
+    <center>
+        <h1 style="background-color:rgb(201, 139, 221);"> <u> @ Portal Data Summary:</u> </h1>
+    </center>
+<div class="d-grid gap-50 col-10 mx-auto"><br>
+    <div class="row">
+        <div class="col">
+            <h3> 1-Pending (NOT Paid) : </h3>
+            <button class="button button1" style="vertical-align:middle"><span> {{ format_price(Finance_list[2]) }}
+                </span></button>
+        </div>
+        <div class="col">
+            <h3> Regular Paid: </h3>
+            <button class="button button2" style="vertical-align:middle"><span> {{ format_price(Finance_list[3]) }}
+                </span></button>
+        </div>
+        <div class="col">
+            <h3> 1-Advance Paid: </h3>
+            <button class="button button3" style="vertical-align:middle"><span> {{ format_price(Finance_list[5]) }}
+                </span></button>
+        </div>
+    </div>
+    <br><br>
+    <div class="row">
+        <div class="col">
+            <h3> Total Amount = </h3>
+            <button class="button button4" style="vertical-align:middle"><span> <u>{{ format_price(Finance_list[0])
+                        }}</u> </span></button>
+        </div>
+        <div class="col">
+            <h3> More than 1 Pendings: </h3>
+            <button class="button button5" style="vertical-align:middle"><span> {{ format_price(Finance_list[1]) }}
+                </span></button>
+        </div>
+        <div class="col">
+            <h3> More than 1 Advance: </h3>
+            <button class="button button5" style="vertical-align:middle"><span> {{ format_price(Finance_list[4]) }}
+                </span></button>
+        </div>
+    </div><br><br></div>
+
+
+    <center>
+        <h1 style="background-color:rgb(238, 111, 173);"> @ Pending Collection For These Families:
+        </h1>
+    </center>
+    <br>
+    <div class="container px-5">
+
+        {% if records_remaining_families|length == 0 %}
+
+        <div class="p-3 mb-2 bg-warning text-dark" role="alert">
+            No Pending Collection Records Found..!!
+        </div>
+        {% else %}
+
+        <table style="width:70%" class="table table-striped table-hover">
+            <thead>
+                <tr style="height: 0.25px;">
+                    <th style="width:2%" scope="col">Sr No</th>
+                    <th style="width:35%" scope="col">Family Names</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for a in records_remaining_families %}
+                <tr>
+                    <th scope="row">{{loop.index}}</th>
+                    <td>
+                        <a href="/on_search_link/{{ a }}">{{ a }}</a>
+                    </td>
+                </tr>
+
+                {% endfor %}
+            </tbody>
+        </table>
+        {% endif %}
+
+        <br>
+</body>
+
+
+{% endblock body %}

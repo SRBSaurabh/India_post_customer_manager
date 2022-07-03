@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block title %} Home{% endblock title %}
+{% block body %}
+
+<body onload="myFunction()">
+
+  <!-- <h1>Thank you</h1> --><br>
+
+  <script>
+    function myFunction() {
+      alert("{{ name }} Updated Successfully...!!!");
+      location.replace("https://srb-indiapost-magic21.herokuapp.com/start")
+    }
+  </script>
+
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+
+    <div class="container-fluid">
+      <u><a class="navbar-brand" style="color:rgb(14, 6, 239)" href="/start">
+          <-- Go Back To Home</a></u>
+    </div>
+    <br>
+    *) No of Accounts Repeated = {{ len }}
+    <br><br>
+    *) Repeated Account Numbers: {{ acc }}
+  </nav>
+</body>
+
+{% endblock body %}

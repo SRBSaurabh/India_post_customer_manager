@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block title %} Home{% endblock title %}
+{% block body %}
+
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard Page</title>
+    <!--  Linking CSS,JS with HTML here using below href Syntax-->
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>
+        $(function () {
+            var tags = {{ family_list | safe }}
+            $("#tags").autocomplete({ source: tags });
+      } );
+    </script>
+</head>
+<br>
+<body>
+    <form action="/submit/{{name}}" method="POST" class="row row-cols-lg-auto g-3 align-items-center">
+          <div class="col-sm-5">
+            <h1 style="color:red;"> <u> Enter New Family Name: </u> </h1>
+
+            <!-- <form id="form" role="search" action="/on_search" method="post"> -->
+              <div class="input-group">
+                <input id="tags" type="search" class="form-control rounded" name="nm" placeholder="Type Family Name" aria-label="Search" aria-describedby="search-addon" />
+              </div><br>
+          </div>
+          <br>
+
+          <div class="form-outline">
+              <label class="form-label" for="typeNumber">(Space-seperated) New Account Nos:</label>
+              <input type="text" id="accounts" class="form-control" name="acc" placeholder="Enter New Accounts Of This Family"/>
+          </div><br><br>
+      
+          <div class="btn-group-vertical" role="group" aria-label="Vertical button group">
+            <a onclick="this.href='/grUpdate/'+document.getElementById('tags').value+'/'+document.getElementById('accounts').value" type="button" class="btn btn-outline-success">Add</button></a>
+            <a onclick="this.href='/grDelete/'+document.getElementById('tags').value+'/'+document.getElementById('accounts').value" type="button" class="btn btn-outline-danger">Remove</button></a>
+        </div>
+      </form>
+</body>
+
+{% endblock body %}

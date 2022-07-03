@@ -1,0 +1,186 @@
+{% extends 'base.html' %}
+{% block title %} Home{% endblock title %}
+{% block body %}
+
+<br>
+<div class="container px-5">
+  <center>
+    <h1 style="background-color:lightgreen;"> {{name}}...!! </h1>
+  </center>
+  <br>
+
+
+  <h2 style="background-color:rgb(207, 166, 228);"> @ Add Collection Details </h2>
+
+
+
+
+  <form action="/submit/{{name}}" method="POST">
+    <div class="row gx-5">
+      <div class="col-sm-2">
+        <h5>Regular Amount (₹)</h5>
+        <input type="number" class="form-control" name="reg" id="reg" , value="{{regular_total}}">
+      </div>
+      <div class="col-sm-2">
+        <h5>Collected Upto Month</h5>
+        <input type="number" class="form-control" name="month" id="month" value="{{last_paidUpto}}">
+      </div>
+      <div class="col-sm-2">
+        <h5>Pending Amount (₹)</h5>
+        <input type="number" class="form-control" name="pend" id="pend" value=0>
+      </div>
+      <div class="col-sm-2">
+        <h5>Extra Amount (₹)</h5>
+        <input type="number" class="form-control" name="ext" id="ext" value=0><br>
+      </div>
+      <div class="col-sm-4"><br>
+        <h4> Note :</h4>
+        <input type="text" class="form-control" name="note" id="note" placeholder="Add Note Manually..."><br>
+      </div>
+
+      <div class="d-grid gap-5 col-10 mx-auto">
+        <button type="submit" class="btn btn-outline-success">Submit</button>
+      </div>
+    </div>
+  </form>
+  <br><br>
+
+
+  <div class="container my-3">
+    <h2 style="background-color:rgb(124, 205, 219);"> # Collections History Of "{{name}}":</h2>
+
+    {% if rec|length == 0 %}
+
+    <div class="p-3 mb-2 bg-warning text-dark" role="alert">
+      No Records found. Add your first Collection now!
+    </div>
+    {% else %}
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">SNo</th>
+          <!-- <th scope="col">Family Name</th> -->
+          <th scope="col">Regular Amount (₹)</th>
+          <th scope="col">Collected Upto Month</th>
+          <th scope="col">Pending Amount (₹)</th>
+          <th scope="col">Extra Amount (₹)</th>
+          <th scope="col">Note</th>
+          <th scope="col">Date</th>
+          <th scope="col">Actions</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        {% for i in rec %}
+        <tr>
+          <th scope="row">{{loop.index}}</th>
+          <!-- <td>{{ i[0] }}</td> -->
+          <td>{{format_price( i[1] )}}</td>
+          <td>{{ i[2] }}</td>
+          <td>{{format_price( i[3] )}}</td>
+          <td>{{format_price( i[4] )}}</td>
+          <td>{{ i[5] }}</td>
+          <td>{{ i[6] }}</td>
+          <td>
+            <a href="/update/{{ i[7] }}" type="button" class="btn btn-outline-success">Update</button>
+              <a href="/delete/{{ i[7] }}" type="button" class="btn btn-outline-danger">Delete</button>
+          </td>
+        </tr>
+
+        {% endfor %}
+      </tbody>
+    </table>
+    {% endif %}
+
+
+  </div>
+  <br><br>
+
+
+  <table class="table table-striped table-hover">
+    <thead>
+      <tr>
+        <th scope="col">SNo</th>
+        <th scope="col">Name</th>
+        <th scope="col">Account No</th>
+        <th scope="col">Amount</th>
+        <th scope="col">Opening</th>
+        <th scope="col">Closing</th>
+        <th scope="col">Months Paid On Portal</th>
+        <th scope="col">Next Due Date</th>
+        <th scope="col">Total Return</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      {% for a in dic %}
+      <tr>
+        <th scope="row">{{loop.index}}</th>
+        <td> {{ a[0] }} </td>
+        <td> {{ a[1] }} </td>
+        <td> {{ format_price(a[2]) }} </td>
+        <td> {{ a[3] }} </td>
+        <td> {{ a[4] }} </td>
+        <td> {{ a[5] }} </td>
+        <td> {{ a[6] }} </td>
+        <td> {{ format_price(a[7]) }} </td>
+      </tr>
+
+      {% endfor %}
+    </tbody>
+  </table>
+
+</div>
+<style>
+  .button {
+    display: inline-block;
+    border-radius: 5px;
+    background-color: #f4511e;
+    border: none;
+    color: #FFFFFF;
+    text-align: center;
+    font-size: 30px;
+    padding: 10px;
+    width: 200px;
+    transition: all 0.5s;
+    cursor: pointer;
+    margin: 5px;
+  }
+
+  .button span {
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    transition: 0.5s;
+  }
+
+  .button span:after {
+    content: '\00bb';
+    position: absolute;
+    opacity: 0;
+    top: 0;
+    right: -20px;
+    transition: 0.5s;
+  }
+
+  .button:hover span {
+    padding-right: 25px;
+  }
+
+  .button:hover span:after {
+    opacity: 1;
+    right: 0;
+  }
+</style>
+</head>
+
+<body><br>
+
+  <ul>
+    <h3> Total Amount: </h3>
+    <button class="button" style="vertical-align:middle"><span> {{ format_price(regular_total) }} </span></button>
+  </ul>
+</body>
+
+
+{% endblock body %}
